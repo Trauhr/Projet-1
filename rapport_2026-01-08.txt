@@ -1,0 +1,8 @@
+RAPPORT QUOTIDIEN - 2026-01-08
+-------------------------------
+Actif         : BTC-USD
+Ouverture     : 91280.70 $
+Clôture       : 91117.70 $
+Volatilité    : 2095.60 $
+-------------------------------
+Généré automatiquement par Cron.
