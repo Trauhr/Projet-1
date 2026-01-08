@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 def run():
-    st.markdown("## 🪙 Analyse & Stratégie : Bitcoin (BTC)")
+    st.markdown('<div class="main-title">MARKET ANALYST</div>', unsafe_allow_html=True)
 
     # 1. Récupération des données
     ticker = "BTC-USD"
