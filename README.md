@@ -1,4 +1,4 @@
-# ⚡ Quant Terminal - Financial Dashboard
+#  Quant Terminal - Financial Dashboard
 
 A quantitative trading and portfolio management application developed in Python using Streamlit.
 This dashboard allows for the analysis of financial assets, strategy backtesting, and portfolio allocation optimization.
@@ -27,7 +27,7 @@ Simulation and asset allocation tool.
 
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/ton-pseudo/Projet-1.git](https://github.com/ton-pseudo/Projet-1.git)
+    git clone https://github.com/Trauhr/Projet_Python_Git_Linux_Arthur_JUNG.git
     ```
 2.  Install dependencies:
     ```bash

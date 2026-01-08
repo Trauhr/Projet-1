@@ -37,7 +37,7 @@ def run():
         return
 
     # ---------------------------------------------------------
-    # 4. ALLOCATION INTELLIGENTE (UI AMÉLIORÉE)
+    # 4. ALLOCATION INTELLIGENTE 
     # ---------------------------------------------------------
     st.markdown("---")
     st.subheader("⚖️ Allocation du Portefeuille")

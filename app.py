@@ -2,6 +2,8 @@ import streamlit as st
 import modules.quant_a as quant_a
 import modules.quant_b as quant_b
 import yfinance as yf
+import os
+import glob
 
 # -----------------------------------------------------------------------------
 # 1. CONFIGURATION
@@ -24,7 +26,6 @@ st.markdown("""
     }
 
     /* --- CORRECTION BANDE NOIRE & MARGES --- */
-    /* Remonte le contenu vers le haut et retire l'espace réservé au header */
     .block-container {
         padding-top: 1rem !important;
         padding-bottom: 1rem !important;
@@ -34,7 +35,6 @@ st.markdown("""
     footer {visibility: hidden;}
     #MainMenu {visibility: hidden;}
 
-    /* TITRE AVEC DEGRADÉ (Bleu/Cyan) */
     .main-title {
         font-size: 80px;
         font-weight: 900;
@@ -44,10 +44,9 @@ st.markdown("""
         text-align: center;
         margin-bottom: 10px;
         letter-spacing: -2px;
-        line-height: 1.2; /* Évite que le titre soit coupé */
+        line-height: 1.2;
     }
 
-    /* SOUS-TITRE */
     .sub-title {
         text-align: center;
         font-size: 24px;
@@ -55,7 +54,6 @@ st.markdown("""
         margin-bottom: 50px;
     }
 
-    /* BARRE DE PRIX LIVE (Le Ticker) */
     .ticker-box {
         background-color: #1A202C;
         border: 1px solid #2D3748;
@@ -74,7 +72,6 @@ st.markdown("""
         font-family: 'Courier New', monospace; 
     }
 
-    /* CARTES DES MODULES (GLOW EFFECT) */
     .module-card {
         background: linear-gradient(145deg, #1A202C, #171923);
         border-radius: 20px;
@@ -88,16 +85,14 @@ st.markdown("""
     .module-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        border-color: #3a7bd5; /* Bordure Bleu Royal au survol (match titre) */
+        border-color: #3a7bd5;
     }
 
     .card-icon { font-size: 60px; margin-bottom: 20px; }
     .card-title { font-size: 30px; font-weight: bold; color: white; margin-bottom: 15px; }
     .card-desc { font-size: 16px; color: #A0AEC0; margin-bottom: 30px; }
 
-    /* BOUTONS STYLISÉS (Harmonisés avec le titre) */
     div.stButton > button {
-        /* Dégradé Bleu identique au titre au lieu du vert/turquoise */
         background: linear-gradient(90deg, #3a7bd5 0%, #00d2ff 100%);
         color: white;
         border: none;
@@ -111,7 +106,6 @@ st.markdown("""
     div.stButton > button:hover {
         transform: scale(1.02);
         color: white;
-        /* Lueur bleue au lieu de turquoise */
         box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
     }
     
@@ -145,16 +139,13 @@ def get_btc_data():
 # --- ACCUEIL ---
 if st.session_state.page == 'home':
     
-    # Titre "Tech"
     st.markdown('<div class="main-title">QUANT TERMINAL</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-title">Advanced Analytics & Portfolio Management</div>', unsafe_allow_html=True)
 
-    # Récupération Live
     price, delta = get_btc_data()
-    color = "#48BB78" if delta >= 0 else "#F56565" # Vert ou Rouge
+    color = "#48BB78" if delta >= 0 else "#F56565"
     sign = "+" if delta >= 0 else ""
 
-    # Affichage du Ticker BTC Live (Style ruban)
     st.markdown(f"""
     <div class="ticker-box">
         <span style="color: #A0AEC0; font-size: 18px; margin-right: 15px;">BITCOIN LIVE FEED</span>
@@ -166,7 +157,6 @@ if st.session_state.page == 'home':
     </div>
     """, unsafe_allow_html=True)
 
-    # Les 2 Modules (Layout clean)
     col1, col2 = st.columns(2, gap="large")
 
     with col1:
@@ -180,7 +170,6 @@ if st.session_state.page == 'home':
             </div>
         </div>
         """, unsafe_allow_html=True)
-        # Bouton (le style est géré par le CSS global ci-dessus)
         st.button("OUVRIR ANALYSE", on_click=go_quant_a, key="btn_a")
 
     with col2:
@@ -195,6 +184,21 @@ if st.session_state.page == 'home':
         </div>
         """, unsafe_allow_html=True)
         st.button("OUVRIR PORTEFEUILLE", on_click=go_quant_b, key="btn_b")
+
+    # --- RAPPORTS AUTOMATIQUES ---
+    st.markdown("---")
+    st.header("📊 Daily Automation Reports")
+    
+    # Chercher les fichiers générés par cron sur la VM
+    report_files = glob.glob("rapport_*.txt")
+    report_files.sort(reverse=True) # Les plus récents en premier
+
+    if report_files:
+        selected_report = st.selectbox("Consulter l'historique des rapports :", report_files)
+        with open(selected_report, "r") as f:
+            st.code(f.read(), language="text")
+    else:
+        st.info("ℹ️ Les rapports automatisés apparaîtront ici après l'exécution de la tâche cron (20h00).")
 
 
 # --- MODULES ---

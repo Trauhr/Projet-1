@@ -177,7 +177,7 @@ def run():
 
         st.markdown("---")
         
-        # Ligne 2 : Risque (Sharpe & Drawdown) -> C'est ça qui manquait !
+        # Ligne 2 : Risque (Sharpe & Drawdown)
         st.caption("📊 Analyse du Risque (Plus le Sharpe est haut, mieux c'est. Plus le Drawdown est bas, mieux c'est)")
         risk1, risk2, risk3, risk4 = st.columns(4)
         risk1.metric("Sharpe Stratégie", f"{sharpe_strat:.2f}")
@@ -220,7 +220,6 @@ def run():
         
         future_preds = model.predict(future_ordinals)
         
-        # --- ASTUCE VISUELLE : On "colle" les deux courbes ---
         plot_dates = [last_date] + future_dates
         plot_prices = [last_price] + list(future_preds)
         
